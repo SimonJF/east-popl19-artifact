@@ -1,0 +1,31 @@
+# Auxiliary Definitions
+
+typename Username = String
+typename Password = String
+typename ChallengeKey = Int
+typename Response = String
+typename Secret = String
+
+typename ServerMain = !Secret.End
+
+typename TwoFactorServer =
+  ?(Username, Password).[+|
+    Authenticated: ServerMain,
+    Challenge: !ChallengeKey.?Response.
+      [+| Authenticated: ServerMain,
+          AccessDenied: End |+],
+    AccessDenied: End |+];
+
+fun close() { () }
+
+fun checkDetails(username, password) {
+  true
+}
+
+# Faulty 2FA implementation: using "s" twice
+sig twoFactorServer : (TwoFactorServer) ~%~> ()
+fun twoFactorServer(s) {
+  var ((username, password), s) = receive(s);
+  ()
+}
+
