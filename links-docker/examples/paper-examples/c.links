@@ -1,0 +1,30 @@
+# Code for example C:
+
+# We fork off a thread, construct a closure, and then raise
+# an exception before the closure can be evaluated.
+# This means that the value will never be sent, and the contained
+# endpoint should be cancelled.
+
+fun go(s) {
+    var f = (linfun(x) { send(x, s) });
+    raise;
+    f(5)
+}
+
+fun main() {
+    var t = fork (fun(s) { ignore(go(s)) });
+    try {
+        var (res, _) = receive(t);
+        res
+    } as (res) in {
+        print(intToString(res))
+    } otherwise {
+        print("Error!\n")
+    }
+}
+
+main()
+
+# Expected output:
+# Error!
+# () : ()
