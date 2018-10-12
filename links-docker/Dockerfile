@@ -2,8 +2,8 @@ FROM ocaml/opam2:alpine-3.8-ocaml-4.06
 WORKDIR /home/opam
 ADD links links
 ADD opam-repository opam-repository-snapshot
-ADD run_chatserver.sh run_chatserver.sh
-ADD run_two_factor.sh run_two_factor.sh
+ADD run-chatserver.sh run-chatserver.sh
+ADD run-two-factor.sh run-two-factor.sh
 ADD examples examples
 ADD config config
 USER root
