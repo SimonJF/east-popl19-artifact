@@ -1,0 +1,16 @@
+# a: cancelling an endpoint that has been created by a fork.
+# A value will never be sent, so receiving from the endpoint s
+# should result in an exception.
+
+fun close(_) { () }
+
+try {
+    var s = fork (fun(t) { cancel(t) });
+    var (res, s) = receive(s);
+    close(s);
+    res
+} as (res) in {
+    print("Result" ^^ res)
+} otherwise {
+    print("Error!")
+}

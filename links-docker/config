@@ -1,0 +1,6 @@
+debug=false
+modules=true
+jsliburl=/lib/
+jslibdir=./links/lib/js/
+enable_handlers=true
+session_exceptions=true

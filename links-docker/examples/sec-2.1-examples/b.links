@@ -1,0 +1,48 @@
+# B: Delegation.
+fun close(_) { () }
+
+# "original" is the example in the paper. Since there is no
+# try- block around the receive in the forked thread, where
+# the exception is raised, the exception is unobservable.
+# Nonetheless, running the application will terminate as normal,
+# since the receive will not block.
+
+fun original() {
+    var s = fork ( fun(t) {
+        var (res, t) = receive(t);
+        close(t);
+        res });
+    var u = fork (fun(v) { cancel(v) });
+    var u = send(s, u);
+    close(u)
+}
+
+# "observable" inserts a try- block around the offending receive,
+# which will print out a message when the exception is raised.
+# This diverges from the paper but makes the exception explicitly observable
+
+fun observable() {
+    var s = fork (
+        fun(t) {
+            try {
+                var (res, t) = receive(t);
+                close(t);
+                res
+            } as (res) in {
+                res
+            } otherwise {
+                print("Error!")
+            }
+        }
+    );
+    var u = fork (fun(v) { cancel(v) });
+    var u = send(s, u);
+    close(u)
+}
+
+fun main() {
+    original();
+    observable()
+}
+
+main()
