@@ -15,7 +15,6 @@ RUN apk update && apk upgrade && \
 USER opam
 WORKDIR /home/opam/links
 RUN \
-  opam upgrade && \
   opam repository set-url default /home/opam/opam-repository-snapshot && \
   opam update && opam upgrade && \
   opam install -y dune

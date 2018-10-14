@@ -1,12 +1,12 @@
 # Auxiliary Definitions
 
-typename Username = String
-typename Password = String
-typename ChallengeKey = Int
-typename Response = String
-typename Secret = String
+typename Username = String;
+typename Password = String;
+typename ChallengeKey = Int;
+typename Response = String;
+typename Secret = String;
 
-typename ServerMain = !Secret.End
+typename ServerMain = !Secret.End;
 
 typename TwoFactorServer =
   ?(Username, Password).[+|
@@ -16,13 +16,17 @@ typename TwoFactorServer =
           AccessDenied: End |+],
     AccessDenied: End |+];
 
-fun close() { () }
+fun close(s) { () }
 
 fun checkDetails(username, password) {
   true
 }
 
-# Faulty 2FA implementation: using "s" twice
+fun serverMain(s) {
+  close(send("secret", s))
+}
+
+# Faulty 2FA implementation: prematurely dropping session
 sig twoFactorServer : (TwoFactorServer) ~%~> ()
 fun twoFactorServer(s) {
   var ((username, password), s) = receive(s);

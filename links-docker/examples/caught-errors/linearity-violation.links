@@ -1,12 +1,12 @@
 # Auxiliary Definitions
 
-typename Username = String
-typename Password = String
-typename ChallengeKey = Int
-typename Response = String
-typename Secret = String
+typename Username = String;
+typename Password = String;
+typename ChallengeKey = Int;
+typename Response = String;
+typename Secret = String;
 
-typename ServerMain = !Secret.End
+typename ServerMain = !Secret.End;
 
 typename TwoFactorServer =
   ?(Username, Password).[+|
@@ -16,10 +16,14 @@ typename TwoFactorServer =
           AccessDenied: End |+],
     AccessDenied: End |+];
 
-fun close() { () }
+fun close(s) { () }
 
 fun checkDetails(username, password) {
   true
+}
+
+fun serverMain(s) {
+  close(send("secret", s))
 }
 
 # Faulty 2FA implementation: using "s" twice
@@ -32,7 +36,7 @@ fun twoFactorServer(s) {
     var s = select Authenticated s;
     serverMain(s);
   } else {
-    var _ = select AccessDenied s;
+    var s = select AccessDenied s;
     close(s)
   }
 }
