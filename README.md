@@ -21,15 +21,15 @@ We provide several example Links programs:
 
   * `links-docker` contains the files used for the Docker image
   * `links` contains the source code of the Links language
-  * `custom_examples` is a folder shared between the host and container, useful
+  * `custom-examples` is a folder shared between the host and container, useful
      if you wish to try your own examples
   * `prepare.sh` is a script to prepare the Docker image
-  * `run-chatserver.sh` is a script to launch the chat server example
-  * `run-two-factor.sh` is a script to launch the 2FA example
-  * `run-example.sh` is a script to run individual examples
-  * `run-custom.sh` is a script to run a custom example file
-  * `run-shell.sh` is a script allowing you to get a bash shell for the
-    container
+  * `run-chatserver.sh` launches the chat server example
+  * `run-two-factor.sh` launches the 2FA example
+  * `run-example.sh` is a interactive script to run individual examples
+  * `run-interactive.sh` launches the Links REPL
+  * `run-custom.sh` runs a custom example file
+  * `run-shell.sh` runs a bash shell for the container
 
 ## Sample evaluation workflow
 
@@ -48,6 +48,7 @@ We provide several example Links programs:
 
 You can also run your own examples by adding the file to the `custom_examples`
 directory and running `./run_custom.sh <example file name>`.
+For example, try running `./run_custom.sh helloworld.links`.
 
 ## Installing Links
 We strongly recommend using the Docker image. If you do not wish to use Docker
