@@ -34,7 +34,7 @@ fun observable() {
             } as (res) in {
                 res
             } otherwise {
-                print("Error!")
+                print("Error!\n")
             }
         }
     );

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sys
+import subprocess
 
 # List of examples
 
@@ -38,20 +39,20 @@ all_examples = \
 def show_examples():
     index = 1
     for example_list, list_description in examples:
-        print()
         print("=== %s ===" % (list_description))
         for (filename, example_description) in example_list:
             print("%s. %s" %(index, example_description))
             index = index + 1
+        print()
 
 def run_example(filename):
-    print()
-    print("Running %s" % (filename))
-    # TODO: Subprocess logic (my favourite!)
+    print("File contents:")
+    subprocess.call(["cat", filename])
+    subprocess.call(["./links/links", "--config=config", filename])
 
 def get_filename():
     while True:
-        idx = input("Index: ")
+        idx = input("Enter example number > ")
         try:
             index = int(idx)
             list_index = index - 1
