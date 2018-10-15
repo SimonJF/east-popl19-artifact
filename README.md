@@ -12,10 +12,15 @@ interact with the image.
 We provide several example Links programs:
 
   * the cancellation examples in Section 2.1 of the paper
+    (examples/paper-exampels)
   * examples of incorrect implementations of the 2FA server caught by session types in Links
-  <<TODO: Also some minimal examples of distributed exceptions would be good here>>
+    (examples/caught-errors)
+  * examples of distributed exception handling
+    (examples/distributed-exceptions)
   * the chat server example
+    (examples/chatserver)
   * a web-based version of the two factor authentication example
+    (examples/two-factor)
 
 ## Structure
 
@@ -24,6 +29,7 @@ We provide several example Links programs:
   * `custom-examples` is a folder shared between the host and container, useful
      if you wish to try your own examples
   * `prepare.sh` is a script to prepare the Docker image
+  * `cleanup.sh` is a script to remove the image and containers after evaluation
   * `run-chatserver.sh` launches the chat server example
   * `run-two-factor.sh` launches the 2FA example
   * `run-example.sh` is a interactive script to run individual examples
@@ -40,9 +46,9 @@ We provide several example Links programs:
      docker <username>`
   3. Run `./prepare.sh` to install the image and prepare the docker container
      (and you might wish to grab a coffee while this churns through)
-  4. Run the chatserver example by invoking `./run_chatserver.sh` and follow the
+  4. Run the chatserver example by invoking `./run-chatserver.sh` and follow the
      instructions in the "Chatserver" section later in this guide
-  5. Run the 2FA example by invoking `./run_two_factor.sh` and follow the
+  5. Run the 2FA example by invoking `./run-two-factor.sh` and follow the
      instructions in the "Two-factor authentication example" section later in
      this guide
   6. Run the smaller examples by invoking `./run-example.sh`. Note that

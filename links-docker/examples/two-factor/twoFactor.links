@@ -189,7 +189,7 @@ module Client {
 
   fun replaceForm(xml) {
     domReplaceChildren(xml, getNodeById("formContainer"))
-  } 
+  }
 
   sig onSubmit : (() ~%~@ ()) ~%~> ()
   fun onSubmit(f) {
@@ -205,6 +205,7 @@ module Client {
     # Display balance, after log-on
     sig clientMain : (ClientMain) ~> ()
     fun clientMain(s) {
+      hideAlert();
       var (balance, _) = receive(s);
 
       var xml =
@@ -226,10 +227,10 @@ module Client {
       var s = send((username, password), s);
       offer(s) {
         case Authenticated(s) -> clientMain(s)
-        case Challenge(s) -> 
+        case Challenge(s) ->
           var (challengeKey, s) = receive(s);
           showChallengeForm(challengeKey, s)
-        case AccessDenied(_) -> 
+        case AccessDenied(_) ->
           loginFailed();
           showLoginForm()
       }
@@ -259,7 +260,7 @@ module Client {
               <input type="text" id="username" class="form-control"
                 placeholder="Username" required="true" autofocus="true"></input>
               <label for="inputpassword" class="sr-only">Password</label>
-              <input type="Password" id="password" class="form-control" 
+              <input type="Password" id="password" class="form-control"
                 placeholder="password" required="true"></input>
               <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
             </form>
@@ -267,7 +268,7 @@ module Client {
       replaceForm(form)
     }
 
-    fun showChallengeForm(challengeKey, s) { 
+    fun showChallengeForm(challengeKey, s) {
 
       fun form(hndlr) {
         <#>
@@ -290,16 +291,21 @@ module Client {
 
       onSubmit(linfun() {
         var response = getInput("challengeResponse");
-        var s = send(stringToInt(response), s);
-        offer(s) {
-          case Authenticated(s) -> clientMain(s)
-          case AccessDenied(_) -> loginFailed(); showLoginForm()
+        if (response =~ /[0-9]+/ ) {
+          var s = send(stringToInt(response), s);
+          offer(s) {
+            case Authenticated(s) -> clientMain(s)
+            case AccessDenied(_) -> loginFailed(); showLoginForm()
+          }
+        } else {
+          showError("Invalid response!");
+          showChallengeForm(challengeKey, s);
         }
       })
     }
 
     var _ = spawnClient {
-      showLoginForm(); 
+      showLoginForm();
       showInfo("Please sign in.")
     };
 

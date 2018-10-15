@@ -25,8 +25,6 @@ RUN	eval `opam config env` && \
 	opam pin add links . -y && \
 	make nc && \
 	sudo ln -s /home/opam/links/linx /usr/local/bin/
-RUN eval `opam config env` && \
-	opam pin add links . -y
 WORKDIR /home/opam/
 EXPOSE 8080
 CMD [ "bash" ]
