@@ -80,6 +80,8 @@ def main():
 
     # Otherwise, interactive mode
     show_examples()
+    print("Note that for the 'Distributed Exceptions' examples, you must " + \
+          "navigate to http://localhost:8080 in your browser, and Ctrl-C to exit.")
     filename = get_filename()
     run_example(filename)
 

@@ -6,7 +6,12 @@ module Client {
       cancel(s)
     };
     page
-      <html><body><h1>Hello, world!</h1></body></html>
+      <html><body>
+        <h1>Hello!</h1>
+        <p>This example cancels an endpoint on the client, and should
+           result in an exception being thrown on the server. If successful,
+           "Error!" should appear on the server console.</p>
+      </body></html>
   }
 }
 
@@ -36,3 +41,5 @@ fun main() {
 }
 
 main()
+
+## Output below.
