@@ -45,6 +45,8 @@ We provide several example Links programs:
      instructions in the "Two-factor authentication example" section later in
      this guide
   6. Run the smaller examples by invoking `./run_example.sh`
+  7. Remove any leftover containers and the image by running
+     `./cleanup.sh`
 
 You can also run your own examples by adding the file to the `custom_examples`
 directory and running `./run_custom.sh <example file name>`.

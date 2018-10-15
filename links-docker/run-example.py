@@ -25,10 +25,19 @@ caught_errors = \
          "Erroneously discarding a linear channel")
     ]
 
+dist_exns_examples = \
+    [
+        ("examples/distributed-exceptions/clientOnServer.links",
+         "Client raising exception on server"),
+        ("examples/distributed-exceptions/serverOnClient.links",
+         "Server raising exception on client")
+    ]
+
 examples = \
     [
         (paper_examples, "Examples from the paper"),
-        (caught_errors, "Errors caught by session types")
+        (caught_errors, "Errors caught by session types"),
+        (dist_exns_examples, "Distributed exceptions")
     ]
 
 all_examples = \

@@ -12,6 +12,7 @@ WORKDIR /root
 RUN apk update && apk upgrade && \
 	apk add coreutils && \
 	apk add camlp4 m4 libressl-dev && \
+  apk add python2 && \
   apk add python3 && \
 	chown opam:nogroup -R /home/opam/links
 USER opam

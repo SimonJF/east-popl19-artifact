@@ -1,0 +1,46 @@
+# Shows that a client can raise an exception on the server via cancellation.
+
+module Client {
+  fun setContent(str) {
+    var elem = getNodeById("content");
+
+    appendChildren(<p>{stringToXml(str)}</p>, elem)
+  }
+
+  fun clientPage(ap) {
+    var _ = spawnClient {
+      var s = request(ap);
+      try {
+        var (str, _) = receive(s);
+        str
+      } as (str) in {
+        setContent(str)
+      } otherwise {
+        setContent("Error!\n")
+      }
+    };
+    page
+      <html><body><h1>Hello, world!</h1><div id="content"></div></body></html>
+  }
+}
+
+module Server {
+
+  sig serverThread: (AP(!String.End)) ~%~> ()
+  fun serverThread(ap) {
+    var s = accept(ap);
+    cancel(s)
+  }
+}
+
+fun main() {
+  var ap = new();
+  addRoute("/", fun(_) {
+    var _ = spawn { Server.serverThread(ap) };
+    Client.clientPage(ap)
+  } );
+  serveWebsockets();
+  servePages()
+}
+
+main()
