@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker run -ti -p 8080:8080 -v `pwd`/custom-examples:/home/opam/custom-examples links_stwt ./links/links --config=config custom-examples/$@
+docker run -ti -p 8080:8080 -v `pwd`/custom-examples:/home/opam/custom-examples --rm links_stwt ./links/links --config=config custom-examples/$@

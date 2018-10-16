@@ -1,0 +1,38 @@
+# Shows that a client can raise an exception on the server via cancellation.
+
+module Client {
+  fun clientPage(s) {
+    var _ = spawnClient {
+      cancel(s)
+    };
+    page
+      <html><body><h1>Hello, world!</h1></body></html>
+  }
+}
+
+module Server {
+
+  sig serverThread: (?String.End) ~%~> ()
+  fun serverThread(s) {
+    try {
+      var (str, _) = receive(s);
+      str
+    } as (str) in {
+      print(str)
+    } otherwise {
+      print("Error!\n")
+    }
+  }
+}
+
+fun main() {
+  var ap = new();
+  addRoute("/", fun(_) {
+    var s = fork(Server.serverThread);
+    Client.clientPage(s)
+  } );
+  serveWebsockets();
+  servePages()
+}
+
+main()
