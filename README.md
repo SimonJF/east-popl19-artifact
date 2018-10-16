@@ -40,10 +40,10 @@ We provide several example Links programs:
 
 ## Sample evaluation workflow
 
-  1. Ensure you have `docker` installed. On Ubuntu, run `sudo apt-get install
-     docker`.
+  1. Ensure you have `docker` installed.
+     See: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
   2. Ensure you have added yourself to the `docker` group: `sudo usermod -a -G
-     docker <username>`
+     docker <username>`. You will need to log back in to see the permissions take effect.
   3. Run `./prepare.sh` to install the image and prepare the docker container
      (and you might wish to grab a coffee while this churns through)
   4. Run the chatserver example by invoking `./run-chatserver.sh` and follow the
