@@ -38,19 +38,29 @@ We provide several example Links programs:
   * `run-shell.sh` runs a bash shell for the container
   * `run-unit-tests.sh` runs the session exceptions unit tests
 
+## Changing the port
+
+By default, the Links server will listen on port 8080. If you wish to change
+this port to a different value, set the `LINKS_PORT` environment variable:
+
+  export LINKS_PORT=9001
+
+In the remainder of the guide, we will assume the default port of 8080.
+
 ## Sample evaluation workflow
 
   1. Ensure you have `docker` installed.
-     See: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
+     See: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04
   2. Ensure you have added yourself to the `docker` group: `sudo usermod -a -G
      docker <username>`. You will need to log back in to see the permissions take effect.
   3. Run `./prepare.sh` to install the image and prepare the docker container
      (and you might wish to grab a coffee while this churns through)
   4. Run the chatserver example by invoking `./run-chatserver.sh` and follow the
      instructions in the "Chatserver" section later in this guide
+     When you're finished, press Ctrl-C to kill the server process.
   5. Run the 2FA example by invoking `./run-two-factor.sh` and follow the
      instructions in the "Two-factor authentication example" section later in
-     this guide
+     this guide.
   6. Run the smaller examples by invoking `./run-example.sh`. Note that
      the "Distributed Exceptions" examples require navigating to
      `http://localhost:8080` in your browser.
@@ -94,12 +104,6 @@ you might wish to look at:
 
 ## Running the examples
 
-### Smaller examples
-
-Running ./run-example.sh will provide you with an interactive script
-allowing you to launch each of the smaller examples. Alternatively, you can run
-./run-example.sh with an argument to launch an example by path.
-
 ### Chatserver
 
 To run the chat server example, run
@@ -131,4 +135,11 @@ response is just to add one to the challenge key you are presented.
 
 You can make the `checkDetails` function raise an exception by setting
 the `raiseExn` variable to `true` -- the default is `false`.
+
+### Smaller examples
+
+Running ./run-example.sh will provide you with an interactive script
+allowing you to launch each of the smaller examples. Alternatively, you can run
+./run-example.sh with an argument to launch an example by path.
+
 
