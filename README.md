@@ -61,8 +61,8 @@ We provide several example Links programs:
      `./cleanup.sh`
 
 You can also run your own examples by adding the file to the `custom_examples`
-directory and running `./run_custom.sh <example file name>`.
-For example, try running `./run_custom.sh helloworld.links`.
+directory and running `./run-custom.sh <example file name>`.
+For example, try running `./run-custom.sh helloworld.links`.
 
 ## Installing Links
 We strongly recommend using the Docker image. If you do not wish to use Docker
@@ -104,7 +104,7 @@ allowing you to launch each of the smaller examples. Alternatively, you can run
 
 To run the chat server example, run
   ```
-    ./run_chatserver.sh
+    ./run-chatserver.sh
   ```
 
 Next, visit `http://localhost:8080` in your browser. Sign in with a user name.
@@ -120,7 +120,7 @@ message).
 To run the two-factor authentication example, run
 
   ```
-    ./run_two_factor.sh
+    ./run-two-factor.sh
   ```
 
 Again, navigate to `http://localhost:8080`.
