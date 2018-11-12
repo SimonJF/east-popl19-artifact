@@ -2,17 +2,18 @@
 
 ## Introduction
 
-This is the artifact for Session Types without Tiers: namely, the modifications
-to the Links programming language to support exception handling and cross-tier
-session-typed communication.
+This is the artifact for Exceptional Asynchronous Session Type: Session Types
+without Tiers.
 
-The artifact consists of a Docker image, along with scripts to install and
-interact with the image.
+The artifact contains the modified Links programming language with session
+types and exceptions, and several example applications. These are packaged in
+a Docker image, and we have included scripts to launch the interpreter and the
+examples.
 
 We provide several example Links programs:
 
   * the cancellation examples in Section 2.1 of the paper
-    (examples/paper-exampels)
+    (examples/paper-examples)
   * examples of incorrect implementations of the 2FA server caught by session types in Links
     (examples/caught-errors)
   * examples of distributed exception handling
@@ -21,6 +22,8 @@ We provide several example Links programs:
     (examples/chatserver)
   * a web-based version of the two factor authentication example
     (examples/two-factor)
+
+An overview of the Links syntax can be found in `links/doc/quick-help.pod`.
 
 ## Structure
 
@@ -46,6 +49,29 @@ this port to a different value, set the `LINKS_PORT` environment variable:
   export LINKS_PORT=9001
 
 In the remainder of the guide, we will assume the default port of 8080.
+
+## Differences between EGV and Links
+
+The paper describes a core calculus, EGV, which extends the GV core functional
+programming language with exception handling constructs. EGV is a purely
+linear calculus, which does not (without extension) handle the integration of
+linear and unrestricted types.
+
+In contrast, Links is designed to be used as a general-purpose programming
+language. It integrates linearity, polymorphism, unrestricted types, and
+session types via an approach based on subkinding, as pioneered by Mazurak et
+al. (2012). The core type system of Links with session types is described by
+Lindley & Morris (2017).
+
+The constructs and semantics of exception handling are the same as in the
+paper. As the paper describes, `close` is un-needed in Links, since endpoints
+of type `End` are affine, as opposed to linear in EGV.
+
+Links supports communication and exception handling in the distributed
+setting, as described in the paper. Distributed communication is achieved
+through WebSockets, which have TCP ordering semantics as defined in the RFC
+(Fette & Melnikov, 2011). We make the assumption that the OCaml implementation
+of WebSockets faithfully implements the RFC.
 
 ## Sample evaluation workflow
 
@@ -81,7 +107,7 @@ follows:
 
   1. Install the system dependencies using `sudo apt install opam m4 libssl-dev pkg-config`
   2. Run `opam init`
-  3. Run `opam switch 4.06.0`
+  3. Run `opam switch 4.06.1`
   4. Run ``` eval `opam config env` ``` (backticks around 'opam config env')
   5. Run `opam install dune`
   6. Run `opam pin add links .` to install Links and its dependencies
@@ -133,8 +159,11 @@ The correct credentials are `User` and `hunter2`.
 You will then be prompted for a key -- the "algorithm" for calculating the
 response is just to add one to the challenge key you are presented.
 
-You can make the `checkDetails` function raise an exception by setting
-the `raiseExn` variable to `true` -- the default is `false`.
+The `raiseExn` variable in `two-factor/twoFactor.links` controls whether or
+not the server raises an exception when calling `checkDetails`, as described
+in the introduction of the paper.  You can make the `checkDetails` function
+raise an exception by setting the `raiseExn` variable to `true` -- the default
+is `false`.
 
 ### Smaller examples
 
@@ -142,4 +171,28 @@ Running ./run-example.sh will provide you with an interactive script
 allowing you to launch each of the smaller examples. Alternatively, you can run
 ./run-example.sh with an argument to launch an example by path.
 
+## Future Work
+
+Future work for the artifact includes investigating whether WebRTC (Bergkvist
+et al., 2012) could be used for "true" client-to-client communication, as
+opposed to routing messages through the server, and compliling client code to
+WebAssembly instead of JavaScript.
+
+## References
+
+Bergkvist, A., Burnett, D. C., Jennings, C., Narayanan, A., & Aboba, B. (2012).
+  Webrtc 1.0: Real-time communication between browsers.
+  Working draft, W3C, 91.
+
+Fette, I., & Melnikov, A. (2011).
+  The WebSocket protocol.
+  RFC 6455.
+
+Lindley, S. and Morris, J. G. (2017).
+ Lightweight functional session types.
+ Behavioural Types: from Theory to Tools, page 265.
+
+Mazurak, K., Zhao, J., and Zdancewic, S. (2010).
+ Lightweight linear types in System F°.
+ In TLDI, pages 77--88. ACM.
 
