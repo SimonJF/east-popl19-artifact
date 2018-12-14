@@ -73,6 +73,44 @@ through WebSockets, which have TCP ordering semantics as defined in the RFC
 (Fette & Melnikov, 2011). We make the assumption that the OCaml implementation
 of WebSockets faithfully implements the RFC.
 
+## Implementation of exception handlers using linear effect handlers
+
+As described in the paper, exception handlers are implemented via a
+translation into linear effect handlers.
+
+Using the typing rule for try-in-otherwise as described in the paper as
+an input to a translation into linear effect handlers is unsound, as it
+allows possibly-linear variables to be used twice, as there is no reason
+in the more general setting of effect handlers that an exception
+couldn't be invoked twice.
+
+  G1 |- L : A   G2, x : A |- M : B    G2 |- N : B
+  -------------------------------------------------
+     G1, G2 |- try L as x in M otherwise N : B
+
+Instead, the typechecker implements a more restrictive typing
+rule which only allows a single variable in the typing of the
+success continuation:
+
+  G |- L : A   x : A |- M : B     |- N : B
+  ------------------------------------------
+    G |- try L as x in M otherwise N : B
+
+Thankfully, the full power of the first rule can be restored
+through the use of a simple macro-translation, performed in
+`desugarExceptionHandlers.ml`.
+
+  try L as x in M otherwise N
+    -->
+  switch (try L as x in Just(x) otherwise Nothing) {
+    case Just(x) -> M
+    case Nothing -> N
+  }
+
+This detail is only relevant for the implementation; all of the
+properties described in the paper are true in the presence of the more
+liberal rule.
+
 ## Sample evaluation workflow
 
   1. Ensure you have `docker` installed.

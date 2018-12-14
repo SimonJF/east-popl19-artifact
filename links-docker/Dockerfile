@@ -1,6 +1,5 @@
 FROM ocaml/opam2:alpine-3.8-ocaml-4.06
 WORKDIR /home/opam
-ADD .opam .opam
 ADD links links
 ADD opam-repository opam-repository-snapshot
 ADD run-chatserver.sh run-chatserver.sh
@@ -20,7 +19,7 @@ USER opam
 WORKDIR /home/opam/links
 RUN \
   opam repository set-url default /home/opam/opam-repository-snapshot && \
-  opam update && opam upgrade && \
+  opam update && \
   opam install -y dune
 RUN	eval `opam config env` && \
 	opam pin add links . -y && \
